@@ -116,7 +116,7 @@ end
 local spectatingPath = Workspace:WaitForChild("Players"):WaitForChild("Spectating")
 
 task.spawn(function()
-    while task.wait(1) do
+    while task.wait(0.5) do
         -- STEP 1: Check if WE are in the Spectating folder
         local myModel = spectatingPath:FindFirstChild(LocalPlayer.Name)
         
@@ -127,7 +127,7 @@ task.spawn(function()
             -- We are NOT in spectating (We are spawned/Survivors).
             
             -- STEP 2: Wait 5 seconds as requested
-            task.wait(5)
+            task.wait(0.5)
             
             -- Verify we are STILL not in spectating (didn't die immediately)
             if not spectatingPath:FindFirstChild(LocalPlayer.Name) then
@@ -146,4 +146,5 @@ task.spawn(function()
         end
     end
 end)
+
 
