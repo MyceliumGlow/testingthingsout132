@@ -1,30 +1,9 @@
 --[[
-    REVISED FORSAKEN SYSTEM: Smart Persistence, Efficient Detection & Auto-Hop
-    
-    LOGIC FLOW:
-    1. Checks if LocalPlayer is in Workspace.Players.Spectating.
-    2. If NOT found (you spawned), waits 5 seconds.
-    3. Triggers Invisibility.
-    4. Checks Spectating folder for ANY other models.
-    5. If models found -> Server Hop.
+    REVISED FORSAKEN SYSTEM: Efficient Detection & Auto-Hop
+    (Queue logic removed - Please place in your AutoExec folder for persistence)
 ]]--
 
------------------------------------------------------------------------------------------------------------------------
--- SECTION 0: PERSISTENCE (AUTO-EXECUTE AFTER HOP)
------------------------------------------------------------------------------------------------------------------------
--- This ensures the script runs again automatically when you join the new server.
 if (not game:IsLoaded()) then game.Loaded:Wait() end
-
-local queue_on_teleport = queue_on_teleport or (syn and syn.queue_on_teleport)
-if queue_on_teleport then
-    -- We queue the exact source of this script to run on the next teleport
-    queue_on_teleport(game:HttpGet("https://raw.githubusercontent.com/user/repo/main/script.lua")) 
-    -- NOTE: If you are running this from a file/clipboard, queue_on_teleport cannot grab the text automatically 
-    -- without 'readfile'. If you are using a loadstring, keep using that loadstring. 
-    -- Below is a generic fallback that attempts to queue the current execution context if possible, 
-    -- but usually putting this script in your "AutoExec" folder is the safest bet.
-    print(" >> Script queued for next server.")
-end
 
 -----------------------------------------------------------------------------------------------------------------------
 -- SERVICES & SETUP
@@ -114,12 +93,6 @@ local function ServerHop()
                     table.insert(AllIDs, ID)
                     writefile("NotSameServers.json", HttpService:JSONEncode(AllIDs))
                     
-                    -- IMPORTANT: Queue this script again before leaving
-                    if queue_on_teleport then
-                        -- If you are copy-pasting this script, you may need to rely on AutoExec folder instead
-                        -- or replace this empty string with the actual loadstring url if you have one.
-                    end
-                    
                     TeleportService:TeleportToPlaceInstance(PlaceID, ID, LocalPlayer)
                     return true
                 end
@@ -165,7 +138,6 @@ task.spawn(function()
                 -- Protocol B: Check for Others in Spectating
                 local spectators = spectatingPath:GetChildren()
                 if #spectators > 0 then
-                    -- If there are spectators (and we are not one of them), HOP.
                     warn("Others found in Spectating. Hopping...")
                     ServerHop()
                     break -- Stop loop, we are leaving
