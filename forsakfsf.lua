@@ -1,13 +1,3 @@
---[[
-    REVISED FORSAKEN SYSTEM: Efficient Detection & Auto-Hop
-    (Queue logic removed - Please place in your AutoExec folder for persistence)
-]]--
-
-if (not game:IsLoaded()) then game.Loaded:Wait() end
-
------------------------------------------------------------------------------------------------------------------------
--- SERVICES & SETUP
------------------------------------------------------------------------------------------------------------------------
 local Players = game:GetService("Players")
 local Workspace = game:GetService("Workspace")
 local HttpService = game:GetService("HttpService")
@@ -146,5 +136,6 @@ task.spawn(function()
         end
     end
 end)
+
 
 
