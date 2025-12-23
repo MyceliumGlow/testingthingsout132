@@ -1,3 +1,13 @@
+--[[
+    REVISED FORSAKEN SYSTEM: Efficient Detection & Auto-Hop
+    (Queue logic removed - Please place in your AutoExec folder for persistence)
+]]--
+
+if (not game:IsLoaded()) then game.Loaded:Wait() end
+
+-----------------------------------------------------------------------------------------------------------------------
+-- SERVICES & SETUP
+-----------------------------------------------------------------------------------------------------------------------
 local Players = game:GetService("Players")
 local Workspace = game:GetService("Workspace")
 local HttpService = game:GetService("HttpService")
@@ -106,7 +116,7 @@ end
 local spectatingPath = Workspace:WaitForChild("Players"):WaitForChild("Spectating")
 
 task.spawn(function()
-    while task.wait(0.5) do
+    while task.wait(1) do
         -- STEP 1: Check if WE are in the Spectating folder
         local myModel = spectatingPath:FindFirstChild(LocalPlayer.Name)
         
@@ -117,7 +127,7 @@ task.spawn(function()
             -- We are NOT in spectating (We are spawned/Survivors).
             
             -- STEP 2: Wait 5 seconds as requested
-            task.wait(0.5)
+            task.wait(5)
             
             -- Verify we are STILL not in spectating (didn't die immediately)
             if not spectatingPath:FindFirstChild(LocalPlayer.Name) then
@@ -136,6 +146,4 @@ task.spawn(function()
         end
     end
 end)
-
-
 
